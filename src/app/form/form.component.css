@@ -1,0 +1,74 @@
+h1 {
+   text-align: center;
+   background-color: #1A5F7A;
+   padding: 20px;
+   margin-bottom: 20px;
+   color: #fff;
+}
+form {
+   max-width: 500px;
+   margin: 0 auto;
+   display: flex;
+   flex-direction: column;
+ }
+ 
+ label {
+   font-weight: bold;
+   margin-bottom: 20px;
+ }
+ 
+ input[type="text"],
+ textarea {
+   padding: 10px;
+   margin-bottom: 10px;
+   border-radius: 2px;
+   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+   width: 95%;
+ }
+
+ input[type="radio"] {
+   margin-right: 10px;
+ }
+ 
+ button[type="submit"] {
+   padding: 10px;
+   background-color: #57C5B6;
+   color: #000000;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   margin-bottom: 10px;
+ }
+ 
+ button[type="submit"]:hover {
+    background-color: #159895;
+   }
+
+.btn-batal {
+     padding: 10px;
+     background-color: #8c9190;
+     color: #fff;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     margin-bottom: 40px;
+   }
+
+.btn-batal:hover {
+      background-color: #595c5b;
+     }
+   
+   div {
+   margin-bottom: 20px;
+ }
+ 
+ .radio-label {
+   display: inline-block;
+   margin-right: 20px;
+ }
+ 
+ .radio-label input[type="radio"] {
+   margin-right: 20px;
+ }
+
+ 
