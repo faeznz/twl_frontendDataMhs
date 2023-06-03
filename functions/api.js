@@ -4,11 +4,11 @@ const bodyParser = require('body-parser');
 const app = express();
 
 app.use((req, res, next) => {
-   res.header('Access-Control-Allow-Origin', '*');
-   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-   next();
- });
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 app.use(bodyParser.json());
 
@@ -71,4 +71,39 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Endpoint not found' });
 });
 
-module.exports = app;
+module.exports.handler = async (event, context) => {
+  // Mengubah event Netlify menjadi format yang sesuai dengan Express.js
+  const fakeNodeReq = {
+    body: event.body ? JSON.parse(event.body) : {},
+    headers: event.headers || {},
+    method: event.httpMethod,
+    query: event.queryStringParameters || {},
+    path: event.path,
+    params: {},
+  };
+
+  const fakeNodeRes = {
+    statusCode: 200,
+    headers: {},
+    json: (data) => {
+      const response = {
+        statusCode: fakeNodeRes.statusCode,
+        body: JSON.stringify(data),
+        headers: fakeNodeRes.headers,
+      };
+      context.succeed(response);
+    },
+    status: (statusCode) => {
+      fakeNodeRes.statusCode = statusCode;
+      return fakeNodeRes;
+    },
+  };
+
+  // Menggunakan Express.js untuk menangani permintaan
+  app(fakeNodeReq, fakeNodeRes, () => {
+    // Jika rute tidak ditemukan, memanggil fallback handler
+    app.use((req, res) => {
+      res.status(404).json({ message: 'Endpoint not found' });
+    });
+  });
+};
