@@ -100,10 +100,10 @@ module.exports.handler = async (event, context) => {
   };
 
   // Menggunakan Express.js untuk menangani permintaan
-  await app(fakeNodeReq, fakeNodeRes);
-
-  // Jika rute tidak ditemukan, memanggil fallback handler
-  app.use((req, res) => {
-    res.status(404).json({ message: 'Endpoint not found' });
+  await app(fakeNodeReq, fakeNodeRes, () => {
+    // Jika rute tidak ditemukan, memanggil fallback handler
+    app.use((req, res) => {
+      res.status(404).json({ message: 'Endpoint not found' });
+    });
   });
 };
