@@ -85,7 +85,7 @@ module.exports.handler = async (event, context) => {
   const fakeNodeRes = {
     statusCode: 200,
     headers: {},
-    json: (data) => {
+    json: function(data) {
       const response = {
         statusCode: fakeNodeRes.statusCode,
         body: JSON.stringify(data),
@@ -93,17 +93,17 @@ module.exports.handler = async (event, context) => {
       };
       context.succeed(response);
     },
-    status: (statusCode) => {
+    status: function(statusCode) {
       fakeNodeRes.statusCode = statusCode;
       return fakeNodeRes;
     },
   };
 
   // Menggunakan Express.js untuk menangani permintaan
-  app(fakeNodeReq, fakeNodeRes, () => {
-    // Jika rute tidak ditemukan, memanggil fallback handler
-    app.use((req, res) => {
-      res.status(404).json({ message: 'Endpoint not found' });
-    });
+  await app(fakeNodeReq, fakeNodeRes);
+
+  // Jika rute tidak ditemukan, memanggil fallback handler
+  app.use((req, res) => {
+    res.status(404).json({ message: 'Endpoint not found' });
   });
 };
